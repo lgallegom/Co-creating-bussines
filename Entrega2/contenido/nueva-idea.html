@@ -1,0 +1,236 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perfil|Añadir idea</title>
+    <link rel="stylesheet" href="css/foundation.css" />
+    <link rel="stylesheet" href="css/app.css" />
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/estilos.css">
+    
+    <script>
+
+    
+var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+var f=new Date();
+
+ 
+
+
+
+      
+    var nuevaPublicacion = { 
+        id_publicacion: 1,
+        nombre_publicador : "dvs", 
+        img_perfil: "jgv",
+        titulo_publicacion: "scd", 
+        publicacion: "dvfbd",
+        fecha_publicacion: "vbgnfh", 
+        img_categoria: "jhkn", 
+        categoria: "scdvfdb"
+  };
+      function GuardarPublicacion( publicacion ){
+    var xmlhttp = new XMLHttpRequest();
+    var url = "http://localhost:88/publicacion"; 
+  
+    xmlhttp.onreadystatechange = function() {
+      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+      }
+    };
+    xmlhttp.open("POST", url, true);
+    
+    // el parametro del metodo send() es el content de la peticion (request)
+    xmlhttp.send(  JSON.stringify( nuevaPublicacion ) );  
+  }
+
+  function SalvarCampos(){
+    
+    nuevaPublicacion.id_publicacion = nuevaPublicacion.id_publicacion + 1;
+  
+    nuevaPublicacion.nombre_publicador = document.getElementById( "nombre_usuario" ).value;
+    //nuevaPublicacion.img_perfil = document.getElementById( "nombre_usuario" ).value;
+    nuevaPublicacion.titulo_publicacion = document.getElementById( "titulo" ).value;
+    nuevaPublicacion.publicacion = document.getElementById( "publicacion" ).value;
+    nuevaPublicacion.fecha_publicacion = fecha_publicacion1;
+    var posicion=document.getElementById('seleccion').options.selectedIndex; //posicion
+    var cat = document.getElementById('seleccion').options[posicion].text;
+    nuevaPublicacion.categoria = cat;
+
+    window.alert( JSON.stringify( nuevaPublicacion ) ) ;
+
+  //  GuardarPublicacion();
+  }
+    function redireccionar(direccion) 
+      {
+        if(direccion != 'undefined')
+        
+      document.location.href=direccion;
+      } 
+      setTimeout ("redireccionar()", 50000);
+
+      function mostrarError(){
+        window.alert('no se ha encontrado');
+      }
+
+      function mostrarUsuario(){
+
+        var campo = document.getElementById("nombre_usuario");
+
+        ca;
+      }
+      
+    </script>
+
+
+  </head>
+  
+
+
+  
+  <body>
+  <div class="top-bar">
+  <div class="top-bar-title">
+    <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
+      <span class="menu-icon dark" data-toggle></span>
+    </span>
+      <div id="responsive-menu">
+    <div class="top-bar-left">
+      <ul class="dropdown menu" data-dropdown-menu>
+      <li> <div> <img src="bombillo_chiquito.PNG"></div></li>
+      <li class="menu-text  JobItem-name">CO-CREATING-BUSSINES</li>
+      </ul>
+    </div>
+
+    <div class="top-bar-right">
+     <ul class="menu">
+
+          <li><a href="#" class="medium small button dark-primary-color" onclick="redireccionar('principal.html')">INICIO</a></li>
+          <li><a href="#" class="medium small button dark-primary-color" >QUIENES SOMOS </a></li>
+          <li><a href="#" class="medium small button dark-primary-color" >NUESTROS SERVICIOS </a></li>
+          <li><a href="#" class="medium small button dark-primary-color" >CONTACTANOS</a></li>
+      
+      <li><input type="search" placeholder="Buscar"></li>
+      <li><button type="button" class="button dark-primary-color" onclick="mostrarError()">Buscar</button></li>
+      <li>
+        <ul class="dropdown menu" data-dropdown-menu>
+        <li >
+          <a href="#">
+          <img src="people_chiquito.PNG"></a>
+          <ul class="menu color_texto_perfil">
+            <li><a href="#" onclick="redireccionar('Login.html')"  >Ver perfíl</a></li>
+            <li><a href="#">Configuración de la cuenta</a></li>
+            <li><a href="#">Cerrar sesión</a></li>
+
+          </ul>
+        </li>
+  
+      </ul>
+      </li>
+    </ul>
+    </div>
+  </div>
+  </div>
+
+</div>
+
+     
+  	
+      <hr>
+      <div class="row">
+      
+      <div class="large-4 columns">
+      <div class="chat">Mi Perfil</div>
+      <div class="JobItem">
+       <img src="people.png">
+       <p id="nombre_usuario"><h5>Nombre de usuario</h5></p>
+       <h6>Numero de anuncios publicados:</h6>
+       <a href="#">Editar perfil</a>
+
+      </div>
+      </div>
+
+      
+      <div class="row">
+      <div class="large-7 columns">
+      <div class="chat">Publicar nueva idea</div>
+      <div class="JobItem">
+      <form>
+  <div class="row">
+    <div class="large-12 columns">
+      <label>Titulo
+        <input id="titulo"  placeholder="título de tu publicación" type="text"/>
+      </label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <label> Descripcion
+        <textarea placeholder="Describe aquí tu idea" id = "publicacion"></textarea>
+      </label>
+      </label>
+    </div>
+    
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <label>Categoria
+        <select  id="seleccion">
+          <option value="ambiente">Ambiente</option>
+          <option value="consruccion">Construccion</option>
+          <option value="apps">Apps Moviles</option>
+          <option value="robotica">Robotica</option>
+          <option value="comida">Comida</option>
+        </select>
+      </label>
+    </div>
+  </div>
+  <button class="button" onclick="SalvarCampos()">Publicar</button>
+</form>
+
+
+      </div>
+      </div>
+      </div>
+     
+     <div class="row Historial">
+     <div class="large-4 columns">
+      <div class="chat">Historial de anuncios</div>
+      <div class="JobItem">
+       <div class="panel callout radius">
+       <h5>Titulo</h5>
+       <h6>Fecha de publicacion:</h6>
+       <h6>Numero de contactos:</h6>
+       </div>
+      </div>
+
+      </div>
+      </div>
+      </div>
+
+      </div>
+      
+
+
+
+    <iclass="foundicon-facebook"></i>
+      <div class="social">
+    <ul>
+      <li><a href="http://www.facebook.com" target="_blank" class="icon-facebook">FB</a></li>
+      <li><a href="http://www.twitter.com" target="_blank" class="icon-twitter">TW</a></li>
+      <li><a href="http://www.googleplus.com" target="_blank" class="icon-googleplus">G+</a></li>
+      <li><a href="http://www.pinterest.com" target="_blank" class="icon-pinterest">GMAIL</a></li>
+    </ul>
+  </div>
+      
+    <script src="js/vendor/jquery.min.js"></script>
+    <script src="js/vendor/what-input.min.js"></script>
+    <script src="js/foundation.min.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,634 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Buscar Idea</title>
+    <link rel="stylesheet" href="css/foundation.css" />
+    <link rel="stylesheet" href="css/app.css" />
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/estilos.css">
+    <script type="text/javascript">
+    
+    function openVentana(){
+      
+      $(".ventana").slideDown("fast");
+
+    }
+    function closeVentana(){
+      $(".ventana").slideUp("fast");
+    }
+	
+// Declarar un array de objetos
+var PublicacionesDeIdeas = "";
+  
+  function PedirPublicacionesDeIdeas(){
+    var xmlhttp = new XMLHttpRequest();
+    var url = "http://localhost:88/PublicacionesDeIdeas";
+
+    xmlhttp.onreadystatechange = function() {
+      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        PublicacionesDeIdeas = JSON.parse(xmlhttp.responseText);
+        
+        myFunction(xmlhttp.responseText);
+
+      }
+    };
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+  }
+
+var PublicacionesDeIdeas2 = "";
+  
+  function PedirPublicacionesDeIdeas2(categoria){
+    var xmlhttp = new XMLHttpRequest();
+    var url = "http://localhost:88/PublicacionesDeIdeas";
+
+    xmlhttp.onreadystatechange = function() {
+      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        PublicacionesDeIdeas2 = JSON.parse(xmlhttp.responseText);
+        if(categoria != "")
+        myFunction2(xmlhttp.responseText, categoria);
+    }
+    };
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+  }
+
+var Usuarios = "";
+  
+  function PedirUsuarios(user){
+    var xmlhttp = new XMLHttpRequest();
+    var url = "http://localhost:88/Usuarios";
+
+    xmlhttp.onreadystatechange = function() {
+      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        Usuarios = JSON.parse(xmlhttp.responseText);
+        
+        myFunction3(xmlhttp.responseText, user);
+
+      }
+    };
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+  }
+
+
+function myFunction(response) {
+    var arr = JSON.parse(response);
+    var i;
+    var out = "<table>";
+
+    for(i = 0; i < arr.length; i++) {
+      // creamos los elementos que van a contener cada elemento de la publicacion
+            var divJobItem = document.createElement('DIV');
+            divJobItem.className = "JobItem";
+
+           
+
+            var divJobItem_top = document.createElement('DIV');
+            divJobItem_top.className = "JobItem-top";
+
+            var divNombre = document.createElement('DIV');
+            var spanTitulo = document.createElement('span');
+            spanTitulo.className = "JobItem-name";
+            spanTitulo.align = "left";
+
+
+            var spanCategoria = document.createElement('span');
+            spanCategoria.className = "JobItem-bottom";
+
+
+            var divCategoria = document.createElement('DIV');
+            var pCategoria = document.createElement('p');
+            pCategoria.className = "JobItem-course";
+
+            var pCategoria2 = document.createElement('p');
+            pCategoria2.className = "JobItem-course";
+
+            var divJobItemDate = document.createElement('DIV');
+            divJobItemDate.className = "JobItem-date columns medium-6";
+
+            
+            var span1 = document.createElement('span');
+            var span2 = document.createElement('span');
+          
+            var divJobItem_body = document.createElement("DIV");
+            divJobItem_body.class = "JobItem-body";
+
+            var divAbajo = document.createElement("DIV");
+            divAbajo.class = "row";
+
+
+            var divAbajo2 = document.createElement("DIV");
+            divAbajo2.class = "columns medium-6";
+
+            var linea = document.createElement('hr');
+
+            //obtengo los datos del json
+
+            var nombrePublicador = document.createTextNode(arr[i].nombre_publicador);
+            var tituloPublicacion = document.createTextNode(arr[i].titulo_publicacion);
+            var publicacion = document.createTextNode(arr[i].publicacion);
+            var tipoDePub = document.createTextNode(arr[i].categoria);
+            var fecha = document.createTextNode(arr[i].fecha_publicacion);
+
+            var linkNombre = document.createElement('a');
+            linkNombre.href = "javascript:openVentana();";
+            linkNombre.onclick = "PedirUsuarios('mateo')";
+
+           var parrafoNombrePub = document.createElement('strong');
+            parrafoNombrePub.appendChild(nombrePublicador);
+
+            linkNombre.appendChild(parrafoNombrePub);
+
+            var parrafoTituloPub = document.createElement('P');
+            parrafoTituloPub.appendChild(tituloPublicacion);
+
+            var parrafoPub = document.createElement('P');
+            parrafoPub.appendChild(publicacion);
+
+            var tipo = document.createElement('P');
+            tipo.appendChild(tipoDePub);
+
+            var fechaPublicacion = document.createElement('div');
+            fechaPublicacion.appendChild(fecha);
+
+            var course = document.createElement('P');
+            course.className = "JobItem-course";
+            course.appendChild(tipoDePub);            
+
+            //guardo nombre y titulo en cada div
+            divNombre.appendChild(linkNombre);
+            spanTitulo.appendChild(parrafoTituloPub);
+
+             //meto los div con nombre y titulo en divTop
+
+            divJobItem_top.appendChild(divNombre); 
+            divJobItem_top.appendChild(spanTitulo); 
+
+
+            //meto el parrafo en el div body
+            divJobItem_body.appendChild(parrafoPub);
+            //
+            span1.appendChild(tipo);
+            span2.appendChild(tipo);
+
+            pCategoria.appendChild(span1);
+            pCategoria2.appendChild(span2);
+
+            course.appendChild(pCategoria);
+            divCategoria.appendChild(course);
+
+            divCategoria.appendChild(pCategoria2);
+
+            divJobItemDate.appendChild(fechaPublicacion);
+
+            spanCategoria.appendChild(divCategoria);
+
+            divAbajo2.appendChild(spanCategoria);
+
+            divAbajo.appendChild(divAbajo2);
+            divAbajo.appendChild(divJobItemDate);
+
+
+            divJobItem.appendChild(divJobItem_top);
+            divJobItem.appendChild(linea);
+            divJobItem.appendChild(divJobItem_body); 
+            divJobItem.appendChild(linea);
+            divJobItem.appendChild(divAbajo);          
+
+            document.getElementById("id01").appendChild(divJobItem);
+    }
+    out += "</table>";
+
+
+    //document.getElementById("id01").innerHTML = out;
+}
+
+function myFunction2(response, categoria) {
+    var arr = JSON.parse(response);
+    var i;
+    
+
+    for(i = 0; i < arr.length; i++) {
+
+      if(categoria == arr[i].categoria){
+        // creamos los elementos que van a contener cada elemento de la publicacion
+            var divJobItem = document.createElement('DIV');
+            divJobItem.className = "JobItem";
+
+            
+
+            var divJobItem_top = document.createElement('DIV');
+            divJobItem_top.className = "JobItem-top";
+
+            var divNombre = document.createElement('DIV');
+            var spanTitulo = document.createElement('span');
+            spanTitulo.className = "JobItem-name";
+            spanTitulo.align = "left";
+
+
+            var spanCategoria = document.createElement('span');
+            spanCategoria.className = "JobItem-bottom";
+
+
+            var divCategoria = document.createElement('DIV');
+            var pCategoria = document.createElement('p');
+            pCategoria.className = "JobItem-course";
+
+            var pCategoria2 = document.createElement('p');
+            pCategoria2.className = "JobItem-course";
+
+            var divJobItemDate = document.createElement('DIV');
+            divJobItemDate.className = "JobItem-date columns medium-6";
+
+            
+            var span1 = document.createElement('span');
+            var span2 = document.createElement('span');
+          
+            var divJobItem_body = document.createElement("DIV");
+            divJobItem_body.class = "JobItem-body";
+
+            var divAbajo = document.createElement("DIV");
+            divAbajo.class = "row";
+
+
+            var divAbajo2 = document.createElement("DIV");
+            divAbajo2.class = "columns medium-6";
+
+            var linea = document.createElement('hr');
+
+            //obtengo los datos del json
+
+            var nombrePublicador = document.createTextNode(arr[i].nombre_publicador);
+            var tituloPublicacion = document.createTextNode(arr[i].titulo_publicacion);
+            var publicacion = document.createTextNode(arr[i].publicacion);
+            var tipoDePub = document.createTextNode(arr[i].categoria);
+            var fecha = document.createTextNode(arr[i].fecha_publicacion);
+
+            var linkNombre = document.createElement('a');
+            linkNombre.href = "javascript:openVentana();";
+
+
+           var parrafoNombrePub = document.createElement('strong');
+            parrafoNombrePub.appendChild(nombrePublicador);
+
+            linkNombre.appendChild(parrafoNombrePub);
+
+            var parrafoTituloPub = document.createElement('P');
+            parrafoTituloPub.appendChild(tituloPublicacion);
+
+            var parrafoPub = document.createElement('P');
+            parrafoPub.appendChild(publicacion);
+
+            var tipo = document.createElement('P');
+            tipo.appendChild(tipoDePub);
+
+            var fechaPublicacion = document.createElement('div');
+            fechaPublicacion.appendChild(fecha);
+
+            var course = document.createElement('P');
+            course.className = "JobItem-course";
+            course.appendChild(tipoDePub);            
+
+            //guardo nombre y titulo en cada div
+            divNombre.appendChild(linkNombre);
+            spanTitulo.appendChild(parrafoTituloPub);
+
+   
+             //meto los div con nombre y titulo en divTop
+
+            divJobItem_top.appendChild(divNombre); 
+            divJobItem_top.appendChild(spanTitulo); 
+
+
+
+
+
+            //meto el parrafo en el div body
+            divJobItem_body.appendChild(parrafoPub);
+            //
+            span1.appendChild(tipo);
+            span2.appendChild(tipo);
+
+            pCategoria.appendChild(span1);
+            pCategoria2.appendChild(span2);
+
+            course.appendChild(pCategoria);
+            divCategoria.appendChild(course);
+
+            divCategoria.appendChild(pCategoria2);
+
+            divJobItemDate.appendChild(fechaPublicacion);
+
+            spanCategoria.appendChild(divCategoria);
+
+            divAbajo2.appendChild(spanCategoria);
+
+            divAbajo.appendChild(divAbajo2);
+            divAbajo.appendChild(divJobItemDate);
+
+
+            divJobItem.appendChild(divJobItem_top);
+            divJobItem.appendChild(linea);
+            divJobItem.appendChild(divJobItem_body); 
+            divJobItem.appendChild(linea);
+            divJobItem.appendChild(divAbajo);          
+
+            document.getElementById("id01").appendChild(divJobItem);
+
+      }
+      
+    }
+    
+
+
+    //document.getElementById("id01").innerHTML = out;
+}
+
+function myFunction3(response, user) {
+    var arr = JSON.parse(response);
+    var i;
+
+    for(i = 0; i < arr.length; i++) {
+
+      if(user == arr[i].user){
+        
+        var campo = document.getElementById( "mo" );
+    
+    campo.value = arr[i].user;
+        
+        // 
+      document.getElementById("NombrePub").innerHTML = (arr[i].user).toString();
+      document.getElementById("CorreoPub").innerHTML = (arr[i].correo).toString();
+      document.getElementById("CelPub").innerHTML = (arr[i].cel).toString();
+      
+      }
+      
+    }
+    
+
+
+    //document.getElementById("id01").innerHTML = out;
+}
+
+function mostrarError(){
+  window.alert('no se ha encontrado');
+}
+
+function redireccionar(direccion) 
+{
+  if(direccion != 'undefined')
+  
+document.location.href=direccion;
+} 
+setTimeout ("redireccionar()", 50000);
+
+
+
+  </script>
+
+
+  </head>
+  <body onload="PedirPublicacionesDeIdeas()">
+
+  <div class="top-bar">
+  <div class="top-bar-title">
+    <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
+      <span class="menu-icon dark" data-toggle></span>
+    </span>
+      <div id="responsive-menu">
+    <div class="top-bar-left">
+      <ul class="dropdown menu" data-dropdown-menu>
+      <li> <div> <img src="bombillo_chiquito.png"></div></li>
+      <li class="menu-text  JobItem-name">CO-CREATING-BUSSINES</li>
+      </ul>
+    </div>
+
+    <div class="top-bar-right">
+     <ul class="menu">
+
+          <li><a href="#" class="medium small button dark-primary-color" onclick="redireccionar('principal.html')">INICIO</a></li>
+          <li><a href="#" class="medium small button dark-primary-color" >QUIENES SOMOS </a></li>
+          <li><a href="#" class="medium small button dark-primary-color" >NUESTROS SERVICIOS </a></li>
+          <li><a href="#" class="medium small button dark-primary-color" >CONTACTANOS</a></li>
+      
+      <li><input type="search" placeholder="Buscar"></li>
+      <li><button type="button" class="button dark-primary-color" onclick="mostrarError()">Buscar</button></li>
+      <li>
+        <ul class="dropdown menu" data-dropdown-menu>
+        <li >
+          <a href="#">
+          <img src="people_chiquito.png"></a>
+          <ul class="menu color_texto_perfil">
+            <li><a href="#" onclick="redireccionar('Login.html')">Ver perfíl</a></li>
+            <li><a href="#">Configuración de la cuenta</a></li>
+            <li><a href="#">Cerrar sesión</a></li>
+
+          </ul>
+        </li>
+  
+      </ul>
+      </li>
+    </ul>
+    </div>
+  </div>
+  </div>
+
+</div>
+<hr>
+
+
+
+<div class="row">
+            
+    <div class="large-8 columns">
+
+    <div id="id01"></div>
+          <div class="JobItem " id="CuadroDePublicacion"><a href="#">
+          </a>
+            <div class="JobItem-top">
+              <div>
+                <div>
+                <a href="#"><a class="Creador" href="javascript:openVentana();" > 
+                </a>
+                <a href="#"><p id="nom" > Mateo Villa </p></a>
+                <input type="text" id="mo" />
+                </div>
+                <div><span class="JobItem-name">
+                <div align="left">No más hambre en el mundo</div>
+                </span></div>
+                
+              </div>
+
+          </div>
+            <a href="#"></a><a href="#">
+                <div class="JobItem-body" id="Idea"><p>¡Casi que no! He inventado la forma de que no haya más hambre en el mundo, pero estoy en los rines y no tengo plata ni pal hambre mía, ¡ GARANTIZADO ! </p>
+                </div>
+
+                <div class=" row ">
+                <div class="columns medium-6">
+                <span class="JobItem-bottom">
+                <p class="JobItem-course"><span><img src="comida.png" alt="" name="IconoIdea" width="30" height="30" id="IconoIdea"></span><span id="TipoIdea">Comida</span></p>
+               
+                </span>
+                 </div>
+
+                
+                <div class="JobItem-date columns medium-6" id="FechaPublicacion"> Medellín-
+                      hace 1;semana, 1;día
+                </div>
+                
+                </div>
+                </a>
+          </div>
+
+      <br>
+
+          <div class="JobItem "><a href="#">
+              <div class="JobItem-top">
+                <div>
+                      <div>
+                        <a href="javascript:openVentana('mateo');" onclick="PedirUsuarios('mateo')"> <strong> Pedro Martinez </strong></a>
+                      </div>
+                      <span class="JobItem-name">Detector de conduccion   </span>
+                </div>
+
+                    <div class="JobItem-date">
+                    <div> Bogota-
+                          hace 2;semana, 3;días
+                    </div>
+                    </div>
+              </div>
+                    <div class="JobItem-body"><p>Ya no mas choques por causa del envio de mensajes de texto, he desarrollado un chip que detecta tu estado de conduccion y le envia un mensaje a tus contactos, ¡Atrevete a usarlo!</p>
+                    </div>
+                    <span class="JobItem-bottom">
+                    <div><p class="JobItem-course"><span><img src="https://static.platzi.com/media/categories/c-desarrollo.png" alt="" width="30" height="30"></span><span>Desarrollo</span></p>
+                    </div>
+                    </span>
+                    </a>
+          </div>
+
+      <br>
+
+          <div class="JobItem "><a href="#">
+              <div class="JobItem-top">
+                <div>
+                        <div>
+                        <a href="javascript:openVentana('jose');"> <strong> Marta Calamidades </strong></a>
+                       </div>
+                      <span class="JobItem-name">Cemento transparente
+                      </span>
+                    </div>
+
+                    <div class="JobItem-date">
+                    <div id="loquesea"> Medellín-
+                          hace 1;semana, 1;día
+                    </div>
+                    </div>
+              </div>
+                    <div class="JobItem-body"><p>Se acabaron los tormentosos polvos por culpa del cemento tradicional, ahora he construido un cemento transparente de alta calidad que le dara mejor aspecto a tu hogar </p>
+                    </div>
+                    <span class="JobItem-bottom">
+                    <div><p class="JobItem-course"><span><img src="pared.png" alt="" width="30" height="30"></span><span>Construccion</span></p>
+                    </div>
+                    </span>
+                    </a>
+          </div>
+      <br>
+
+    </div>
+
+    <div class="columns large-4"align="left">
+
+          <div class="row JobItem "align="left">
+            <div>
+              <ul class="accordion" data-accordion >
+
+                <li class="accordion-item " data-accordion-item>
+                  <a href="#" class="accordion-title"><p><STRONG> ROL:</STRONG></p></a>
+                  <div class="accordion-content" data-tab-content>
+                    <label>Selecciona el rol al que pertences</label>
+                        <input type="radio" name="pokemon" value="Red" id="pokemonRed"><label for="pokemonRed">Invertionista</label>
+                        <input type="radio" name="pokemon" value="Blue" id="pokemonBlue"><label for="pokemonBlue">Inventor</label>
+                  </div>
+
+
+                </li>
+
+
+                <li class="accordion-item " data-accordion-item>
+                  <a href="#" class="accordion-title"><p><strong> Categorías:</strong></p></a>
+                  <div class="accordion-content" data-tab-content>
+                      <select>
+                        <option value="S_Comidas">Comidas</option>
+                        <option value="S_Ambiente">Ambiente</option>
+                        <option value="S_Comunidad">Comunidad</option>
+                        <option value="S_Construcción">Constrcción</option>
+                      </select>
+                  </div>
+                </li>
+                
+              </ul>
+            </div>
+            
+              <div>
+                <div align="center">
+                  <p><STRONG> Ó también</STRONG></p>
+                </div>
+
+                  <div align="center">
+                    <label>
+                    <input type="text" value="Inversionistas-Inventores-Categorías-otras cosas">
+                    </label>
+                  </div>
+              </div>
+              <hr >
+                <div>
+                 <button class="expanded button dark-primary-color" href="#" onclick="PedirPublicacionesDeIdeas2('scdvfdb')">BUSCAR</button>
+                
+                </div>
+          </div>
+    </div>
+
+</div>
+
+
+<div >
+      <div class="ventana">
+        
+        <div class="form">
+          <div class="cerrar"><a href="javascript:closeVentana();">Cerrar X</a></div>
+        
+         <div class="InfoVen">
+  
+  <img src="people.png">
+  
+  
+  <label id="NombrePub">Nombre</label>
+    <label id="CorreoPub">Correo Electronico</label>
+    <label id="CelPub">Numero de celular</label>
+  </div>
+    
+  
+   <iclass="foundicon-facebook"></i>
+      <div class="social">
+    <ul>
+      <li><a href="http://www.facebook.com" target="_blank" class="icon-facebook">FB</a></li>
+      <li><a href="http://www.twitter.com" target="_blank" class="icon-twitter">TW</a></li>
+      <li><a href="http://www.googleplus.com" target="_blank" class="icon-googleplus">G+</a></li>
+      <li><a href="http://www.pinterest.com" target="_blank" class="icon-pinterest">GMAIL</a></li>
+    </ul>
+  </div>
+  
+
+    <script src="js/vendor/jquery.min.js"></script>
+    <script src="js/vendor/what-input.min.js"></script>
+    <script src="js/foundation.min.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

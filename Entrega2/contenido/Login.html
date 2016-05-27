@@ -1,0 +1,253 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login|Registro</title>
+    <link rel="stylesheet" type="text/css" href="css/foundation.css" />
+    <link rel="stylesheet" type="text/css" href="css/app.css" />
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/estilos.css"/>
+	
+	<script>
+  var nuevoUsuario = { 
+    user:"fdgb",
+    pwd:"fzgx",
+    correo:"cbv",
+    cel:"ssv"
+  };
+
+	function Login(){
+    var datos = { user:"", pwd:"" };
+    //var datos = {user:"",pwd:"",correo:"",cel:""}
+
+    
+    datos.user = document.getElementById( "usuario" ).value;
+    datos.pwd = document.getElementById( "contraseña" ).value;
+    console.log(datos.user);
+    var xmlhttp = new XMLHttpRequest();
+    var url = "/Login";  
+    // Este es el codigo que se ejecuta cuando termine la peticion
+    xmlhttp.onreadystatechange = function() {
+      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        window.alert( "usuario valido!");
+        // lleva al usuario a otra pagina diferente
+
+      // document.getElementById( "nombre" ).value  = "mateo";
+
+        //window.url.href = "/secret";
+      }  // si el usuario y la contraseña son correctos, recibiremos sts 200
+      
+      if (xmlhttp.readyState == 4 && xmlhttp.status == 402) {
+        window.alert( "usuario no autorizado, verificar datos ingresados!");
+      }  // si no es correcto recibiremos http status 402 
+      
+    };
+    xmlhttp.open("POST", url, true);
+    
+    // el parametro del metodo send() es el content de la peticion (request)
+    xmlhttp.send(  JSON.stringify( datos ) );   
+  }
+
+  function GuardarProducto( producto ){
+    var xmlhttp = new XMLHttpRequest();
+    var url = "http://localhost:88/producto"; 
+  
+    xmlhttp.onreadystatechange = function() {
+      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+      }
+    };
+    xmlhttp.open("POST", url, true);
+    
+    // el parametro del metodo send() es el content de la peticion (request)
+    xmlhttp.send(  JSON.stringify( nuevoUsuario ) );  
+  }
+
+  function SalvarCampos(){
+    //producto1.nombre = document.getElementById( "nombre" ).value;
+    
+    nuevoUsuario.user = document.getElementById( "nombreNuevo" ).value;
+    nuevoUsuario.pwd = document.getElementById( "nuevaContraseña" ).value;
+    nuevoUsuario.correo = document.getElementById( "correo" ).value;
+    nuevoUsuario.cel = document.getElementById( "NumeroCelular" ).value;
+    //window.alert( JSON.stringify( nuevoUsuario ) ) ;
+    window.alert('Usuario registrado con exito');
+    GuardarProducto();
+  }
+
+    function redireccionar(direccion) 
+      {
+        if(direccion != "undefined")
+
+      document.location.href=direccion;
+      } 
+      setTimeout ("redireccionar()", 50000);
+
+      function mostrarError(){
+        window.alert('no se ha encontrado');
+      }
+</script>
+    
+
+
+  </head>
+
+<body onload="">
+ <div class="top-bar">
+  <div class="top-bar-title">
+    <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
+      <span class="menu-icon dark" data-toggle></span>
+    </span>
+      <div id="responsive-menu">
+    <div class="top-bar-left">
+      <ul class="dropdown menu" data-dropdown-menu>
+      <li> <div> <img src="bombillo_chiquito.png"></div></li>
+      <li class="menu-text  JobItem-name">CO-CREATING-BUSSINES</li>
+      </ul>
+    </div>
+
+    <div class="top-bar-right">
+     <ul class="menu">
+
+          <li><a href="#" class="medium small button dark-primary-color" onclick="redireccionar('principal.html')">INICIO</a></li>
+          <li><a href="#" class="medium small button dark-primary-color" >QUIENES SOMOS </a></li>
+          <li><a href="#" class="medium small button dark-primary-color" >NUESTROS SERVICIOS </a></li>
+          <li><a href="#" class="medium small button dark-primary-color" >CONTACTANOS</a></li>
+      
+      <li><input type="search" placeholder="Buscar"></li>
+      <li><button type="button" class="button dark-primary-color" onclick="mostrarError()" >Buscar</button></li>
+      <li>
+        <ul class="dropdown menu" data-dropdown-menu>
+        <li >
+          <a href="#">
+          <img src="people_chiquito.PNG"></a>
+          <ul class="menu color_texto_perfil">
+            <li><a href="#" onclick="redireccionar('Login.html')"  >Ver perfíl</a></li>
+            <li><a href="#">Configuración de la cuenta</a></li>
+            <li><a href="#">Cerrar sesión</a></li>
+
+          </ul>
+        </li>
+  
+      </ul>
+      </li>
+    </ul>
+    </div>
+  </div>
+  </div>
+
+</div>
+<hr>
+<div class="row">
+<div class="large-4 columns">
+
+<div class="login-box">
+<h2>Iniciar Sesion</h2>
+<form>
+<div class="row">
+<div class="small-12 columns">
+<label>Correo electronico
+<input id= "usuario"type="text">
+</label>
+</div>
+<div class="small-12 columns">
+<label>Contraseña
+<input id = "contraseña" type="password">
+</label>
+<button type="submit" class="button" onclick="Login()">Ingresar</button>
+
+
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+<div class="row column">
+<hr>
+</div>
+
+
+	<div class="row">
+	<div class="large-12 columns">
+	
+	<h2 align="center">¿Nuevo en CO-CREATING-BUSSINES?</h2>
+	
+	<p class="subheader">Encontrar y publicar las ideas que deseas nunca habia sido tan facil, en 
+	CO-CREATING-BUSSINES lo puedes hacer y sin ningun costo.</p>
+	
+	</div>
+	</div>
+
+
+
+
+	<div class="row">
+    <div class="large-4 columns">
+    <h2>Registrarse</h2>
+      <label>Nombre Completo
+        <input type="text" placeholder="Nombre Completo" id="nombreNuevo" />
+      </label>
+    </div>
+    
+  </div>
+  <div class="row">
+    <div class="large-4 columns">
+      <label>Correo electronico
+        <input type="text" id="correo" placeholder="mateo@ejemplo.com"/> 
+      </label>
+    </div>
+    
+    
+  </div>
+  <div class="row">
+    <div class="large-4 columns">
+      <label>Contraseña
+        <input type="password" id="nuevaContraseña" />
+      </label>
+    </div>
+    
+    
+  </div>
+  
+	<div class="row">
+    <div class="large-4 columns">
+      <label>Numero de celular</label>
+      <input type="text" id="NumeroCelular" />
+    </div>
+    
+    
+	</div>
+	<div class="row">
+	<div class="large-4 columns">
+	<button id ="guardar" onclick="SalvarCampos()"  class="button">Registrarse</button>	
+	</div>
+	</div>
+
+	
+
+ 
+
+  
+</form>
+<iclass="foundicon-facebook"></i>
+      <div class="social">
+    <ul>
+      <li><a href="http://www.facebook.com" target="_blank" class="icon-facebook">FB</a></li>
+      <li><a href="http://www.twitter.com" target="_blank" class="icon-twitter">TW</a></li>
+      <li><a href="http://www.googleplus.com" target="_blank" class="icon-googleplus">G+</a></li>
+      <li><a href="http://www.pinterest.com" target="_blank" class="icon-pinterest">GMAIL</a></li>
+    </ul>
+  </div>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="http://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+<script>
+      $(document).foundation();
+    </script>
+<script type="text/javascript" src="https://intercom.zurb.com/scripts/zcom.js"></script>
+</body>
+</html>
